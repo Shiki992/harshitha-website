@@ -1,28 +1,7 @@
 (function () {
   'use strict';
 
-  var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ---------- Theme toggle ----------
-  var themeBtn = document.querySelector('.theme-toggle');
-  var themeMeta = document.querySelectorAll('meta[name="theme-color"]');
-
-  function applyTheme(t) {
-    root.setAttribute('data-theme', t);
-    themeMeta.forEach(function (m) { m.setAttribute('content', t === 'dark' ? '#121019' : '#f6f3ec'); });
-    if (themeBtn) themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-  }
-
-  applyTheme(root.getAttribute('data-theme') || 'light');
-
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function () {
-      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-      try { localStorage.setItem('theme', next); } catch (e) {}
-    });
-  }
 
   // ---------- Mobile menu ----------
   var menuBtn = document.querySelector('.menu-toggle');
@@ -47,7 +26,7 @@
     });
   }
 
-  // ---------- Header border on scroll ----------
+  // ---------- Header shadow on scroll ----------
   var header = document.querySelector('.site-header');
   function onScroll() {
     if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
@@ -74,8 +53,8 @@
     var copyLabel = copyBtn.querySelector('.copy-label');
     copyBtn.addEventListener('click', function () {
       navigator.clipboard.writeText(address).then(function () {
-        if (copyLabel) copyLabel.textContent = 'Copied';
-        setTimeout(function () { if (copyLabel) copyLabel.textContent = 'Copy email'; }, 1800);
+        if (copyLabel) copyLabel.textContent = 'Copied to clipboard';
+        setTimeout(function () { if (copyLabel) copyLabel.textContent = 'Copy email address'; }, 1800);
       }).catch(function () {
         window.location.href = 'mailto:' + address;
       });
@@ -85,24 +64,6 @@
   // ---------- Year ----------
   var year = document.querySelector('.js-year');
   if (year) year.textContent = String(new Date().getFullYear());
-
-  // ---------- Count-up for stats ----------
-  function countUp(el) {
-    var target = parseInt(el.getAttribute('data-count'), 10);
-    var suffix = el.getAttribute('data-suffix') || '';
-    if (isNaN(target) || reduceMotion) return;
-    var start = null;
-    var duration = 1100;
-    function step(ts) {
-      if (start === null) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    }
-    el.textContent = '0' + suffix;
-    requestAnimationFrame(step);
-  }
 
   // ---------- Reveal on scroll ----------
   var revealEls = document.querySelectorAll('.reveal');
@@ -117,13 +78,11 @@
         // Stagger siblings that enter together.
         var siblings = el.parentElement ? Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains('reveal'); }) : [el];
         var i = Math.max(0, siblings.indexOf(el));
-        el.style.transitionDelay = Math.min(i * 70, 280) + 'ms';
+        el.style.transitionDelay = Math.min(i * 60, 300) + 'ms';
         el.classList.add('is-visible');
-        var num = el.querySelector('.stat-num');
-        if (num) countUp(num);
         revealObs.unobserve(el);
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
 
     revealEls.forEach(function (el) { revealObs.observe(el); });
   }
