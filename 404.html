@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · Harshitha Kalluri</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    .nf { min-height: 100vh; display: grid; place-items: center; padding: 48px 0; }
+    .nf h1 { margin-top: 16px; font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 450; letter-spacing: -0.03em; }
+    .nf p.lede { margin-top: 16px; max-width: 40ch; color: var(--ink-soft); font-size: 1.1rem; }
+    .nf .btn { margin-top: 28px; }
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <div class="container">
+      <p class="section-index">404 · Not found</p>
+      <h1>This record didn't <em>make it</em> through migration.</h1>
+      <p class="lede">The page you're looking for doesn't exist. The rest of the site is right where it should be.</p>
+      <a class="btn btn-primary" href="/">Back to the home page</a>
+    </div>
+  </main>
+</body>
+</html>
